@@ -2,12 +2,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
 
-public class YtDownloader {
+public class YtDownloader{
 
-	public static final String YTDLBINARY_DEFAULT = "Resources/youtube-dl";
+	public static final String YTDLBINARY_DEFAULT = "Binaries/youtube-dl";
 	public static final String YOUTUBE_PREFIX = "https://www.youtube.com/watch?v=";
 	public static final String SPLITTING_SEQUENCE = "?v=";
 
+	//TODO: rewrite to use youtube api v3
+	
 	// contains the song metadata
 	private StringProperty artistProperty;
 	private StringProperty songTitleProperty;
@@ -16,20 +18,14 @@ public class YtDownloader {
 	private String delimiter = "-";
 
 	private String ytBinaryPath = "";
-	private String ytid = "";
 
 	public DownloaderStatus status;
 
 	/**
-	 * Constructor for ytDownloader.
-	 * 
-	 * @param ytid
-	 *            Identifier code for the video to be downloaded. Already
-	 *            verified to be correct.
+	 * Constructor for ytDownloader
 	 */
-	public YtDownloader(String ytid) {
+	public YtDownloader() {
 		initialize();
-		this.ytid = ytid;
 	}
 
 	private void initialize() {
@@ -46,7 +42,7 @@ public class YtDownloader {
 	 * 
 	 * @return
 	 */
-	public Task<String> updateTitlesTask() {
+	public Task<String> updateTitlesTask(String ytid) {
 		status = DownloaderStatus.RUNNING;
 		final String titleFlag = "--get-title";
 		Task<String> titleTask = new Task<String>() {
@@ -74,6 +70,10 @@ public class YtDownloader {
 				while (!inputGob.isEmpty()) {
 					sb.append(inputGob.poll());
 				}
+				while(!errorGob.isEmpty()){
+					System.err.println(errorGob.poll());
+				}
+				System.out.println();
 				return sb.toString();
 			}
 		};
@@ -137,19 +137,12 @@ public class YtDownloader {
 			int index = in.indexOf(app);
 			in = in.substring(0, index + app.length());
 		}
+		System.out.println(in);
 		return in;
 	}
 
 	public void setYtdlBinaryPath(String path) {
 		ytBinaryPath = path;
-	}
-
-	public void setYtid(String id) {
-		this.ytid = id;
-	}
-
-	public String getUrl() {
-		return YOUTUBE_PREFIX + ytid;
 	}
 
 	public String getYtdlBinaryPath() {

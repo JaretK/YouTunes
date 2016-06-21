@@ -2,5 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="Dependencies/google-api-client-1.21.0.jar"/>
+	<classpathentry kind="lib" path="Dependencies/google-api-services-youtube-v3-rev176-1.22.0.jar"/>
+	<classpathentry kind="lib" path="Dependencies/google-http-client-1.21.0.jar"/>
+	<classpathentry kind="lib" path="Dependencies/google-http-client-jackson2-1.21.0.jar"/>
+	<classpathentry kind="lib" path="Dependencies/jackson-core-2.7.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

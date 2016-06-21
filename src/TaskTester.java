@@ -9,12 +9,21 @@ public class TaskTester extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		YtDownloader dl = new YtDownloader("cXER29tPVow");
-		Task<String> t = dl.updateTitlesTask();
+		long init = System.currentTimeMillis();
+		YtDownloader dl = new YtDownloader();
+		Task<String> t = dl.updateTitlesTask("SHHknspIQ8Q");
 		Thread thread = new Thread(t);
 		thread.start();
 		thread.join();
+		long mid = System.currentTimeMillis();
+		System.out.println((mid - init));
+
+		YoutubeValidator ytv = new YoutubeValidator();
+		System.out.println(ytv.validateId("SHHknspIQ8Q"));
+		System.out.println(ytv.getVideoTitle("SHHknspIQ8Q"));
 		
+		long end = System.currentTimeMillis();
+		System.out.println((end-mid));
 	}
 
 	public static void main(String[] args) {
