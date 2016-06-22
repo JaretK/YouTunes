@@ -18,16 +18,18 @@ import com.google.api.services.youtube.model.VideoSnippet;
 
 public class YoutubeValidator {
 
+	//file containing the api key used for youtube api requests
 	private static final String PROPERTIES_FILENAME = "youtube.properties";
+	//identifier in the properties file
 	private static final String API_KEY_ID = "youtube.apikey";
 
-	private YouTube youtube;
-	private String api_key;
+	private static YouTube youtube;
+	private static String api_key;
 	
 	//Map for storing ytid, snippet mappings
-	private Map<String, VideoSnippet> cache;
+	private static Map<String, VideoSnippet> cache;
 
-	public YoutubeValidator() {
+	static {
 		HttpRequestInitializer HttpInit = new HttpRequestInitializer() {
 			public void initialize(HttpRequest arg0) throws IOException {
 			}
@@ -42,7 +44,7 @@ public class YoutubeValidator {
 	 * Loads api key from the properties file into the api_key variable
 	 * @return
 	 */
-	private String loadApiKey() {
+	private static String loadApiKey() {
 		Properties properties = new Properties();
 		try {
 			InputStream in = YoutubeValidator.class
@@ -61,7 +63,7 @@ public class YoutubeValidator {
 	 * @param ytid YouTube unique ID
 	 * @return True iff the id maps to one video
 	 */
-	public boolean validateId(String ytid) {
+	public static boolean validateId(String ytid) {
 		try {
 			YouTube.Videos.List video = youtube.videos().list("snippet");
 			video.setKey(api_key);
@@ -85,9 +87,9 @@ public class YoutubeValidator {
 	 * @param ytid YouTube unique video ID
 	 * @return title of the video
 	 */
-	public String getVideoTitle(String ytid){
+	public static String getVideoTitle(String ytid){
 		//cache to improve performance
-		//assumes validateID is called first
+		//validateID is called first
 		if (cache.containsKey(ytid)){
 			return cache.get(ytid).getTitle();
 		}
@@ -110,6 +112,5 @@ public class YoutubeValidator {
 	private static class Auth {
 		public static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
 		public static final JsonFactory JSON_FACTORY = new JacksonFactory();
-
 	}
 }

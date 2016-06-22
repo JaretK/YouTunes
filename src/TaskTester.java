@@ -15,15 +15,15 @@ public class TaskTester extends Application {
 		Thread thread = new Thread(t);
 		thread.start();
 		thread.join();
+		for (int i = 0; i < 10; i++){
 		long mid = System.currentTimeMillis();
-		System.out.println((mid - init));
 
-		YoutubeValidator ytv = new YoutubeValidator();
-		System.out.println(ytv.validateId("SHHknspIQ8Q"));
-		System.out.println(ytv.getVideoTitle("SHHknspIQ8Q"));
+		YoutubeValidator.validateId("SHHknspIQ8Q");
+		YoutubeValidator.getVideoTitle("SHHknspIQ8Q");
 		
 		long end = System.currentTimeMillis();
 		System.out.println((end-mid));
+		}
 	}
 
 	public static void main(String[] args) {
