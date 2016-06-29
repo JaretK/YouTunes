@@ -1,5 +1,4 @@
 import javafx.application.Application;
-import javafx.concurrent.Task;
 import javafx.stage.Stage;
 
 public class TaskTester extends Application {
@@ -9,25 +8,19 @@ public class TaskTester extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		String[] ids = new String[] { "NMXW9Q-yAAw", "uozgE83uG4o",
+				"eKH46ff1roc", "VgKFmC_YgyU", "aADqFviP7wU", "rabOaM2kh9c",
+				"6nRy10_iOPc", "uUo6r0EWycw", "f3WxjIJRKXE", "Y8rnmRYHHwI" };
 		long init = System.currentTimeMillis();
-		YtDownloader dl = new YtDownloader();
-		Task<String> t = dl.updateTitlesTask("SHHknspIQ8Q");
-		Thread thread = new Thread(t);
-		thread.start();
-		thread.join();
-		for (int i = 0; i < 10; i++){
-		long mid = System.currentTimeMillis();
-
-		YoutubeValidator.validateId("SHHknspIQ8Q");
-		YoutubeValidator.getVideoTitle("SHHknspIQ8Q");
-		
-		long end = System.currentTimeMillis();
-		System.out.println((end-mid));
+		for (String ele : ids) {
+			System.out.println(YoutubeValidator.validateId(ele));
+			System.out.println(YoutubeValidator.getVideoTitle(ele));
 		}
+		long end = System.currentTimeMillis();
+		System.out.println(end - init);
 	}
 
 	public static void main(String[] args) {
 		launch(args);
 	}
-
 }
